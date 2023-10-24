@@ -12,13 +12,11 @@ class myFrame(wx.Frame):
         self.b_state = wx.Button(self.panel, wx.ID_ANY, "Disable", pos=(160,20))
         self.Bind(wx.EVT_BUTTON, self.on_state, self.b_state)
 
-        self.lb_test = wx.ListBox(self.panel, wx.ID_ANY, \
+        self.cb_test = wx.ComboBox(self.panel, wx.ID_ANY, \
                                   choices=['Thor','Odin','Loki','Frigg','Freyr'], \
-                                  style=wx.LB_HSCROLL | wx.LB_SINGLE | wx.LB_SORT, \
-                                  pos=(270,20), size=(120,160))
-        self.lb_test.SetSelection(0)
-        self.Bind(wx.EVT_LISTBOX_DCLICK, self.on_click, self.lb_test)
-        self.tc_test = wx.TextCtrl(self.panel,wx.ID_ANY, "", pos=(60,70))
+                                  pos=(270,20), style=wx.CB_SORT)
+        self.cb_test.SetSelection(0)
+        self.Bind(wx.EVT_COMBOBOX, self.on_select, self.cb_test)
     
     def on_test(self, event):
         #On Press, print set message
@@ -49,9 +47,8 @@ class myFrame(wx.Frame):
         
         event.Skip()
     
-    def on_click(self, event):
-        listno = self.lb_test.GetSelection()
-        print(f"{self.lb_test.GetString(listno)} lives in Valhalla")
+    def on_select(self, event):
+        print(f"{self.cb_test.GetValue()} lives in Valhalla")
 
 class myApp(wx.App):
     def OnInit(self):
