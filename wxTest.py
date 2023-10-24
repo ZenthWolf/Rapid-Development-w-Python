@@ -11,19 +11,31 @@ class myFrame(wx.Frame):
         
         self.b_state = wx.Button(self.panel, wx.ID_ANY, "Disable", pos=(160,20))
         self.Bind(wx.EVT_BUTTON, self.on_state, self.b_state)
-        self.tc_ctr = wx.TextCtrl(self.panel, wx.ID_ANY, "1", (60,100), (35,-1))
-        hispin = self.tc_ctr.GetSize().height
-        pospin = self.tc_ctr.GetSize().width + self.tc_ctr.GetPosition().x + 2
-        #Definitely not confusing given that SpinCtrl is also a wx class.
-        self.sb_ctr = wx.SpinButton(self.panel, wx.ID_ANY, (pospin,100), \
-                                    (int(hispin*3/4),hispin), style=wx.SP_VERTICAL | wx.SP_ARROW_KEYS)
-        self.sb_ctr.SetRange(1,100)
-        self.sb_ctr.SetValue(1)
-        self.Bind(wx.EVT_SPIN, self.on_spin, self.sb_ctr)
+
+        self.lb_test = wx.ListBox(self.panel, wx.ID_ANY, \
+                                  choices=['Thor','Odin','Loki','Frigg','Freyr'], \
+                                  style=wx.LB_HSCROLL | wx.LB_SINGLE | wx.LB_SORT, \
+                                  pos=(270,20), size=(120,160))
+        self.lb_test.SetSelection(0)
+        self.Bind(wx.EVT_LISTBOX_DCLICK, self.on_click, self.lb_test)
+        self.tc_test = wx.TextCtrl(self.panel,wx.ID_ANY, "", pos=(60,70))
     
     def on_test(self, event):
         #On Press, print set message
-        print("This button works.")
+        #print("This button works.")
+        
+        #Prints highlight entry
+        #listno = self.lb_test.GetSelection()
+        #print(f"{self.lb_test.GetString(listno)} lives in Valhalla")
+        
+        #Adds an entry
+        self.lb_test.Append(self.tc_test.GetValue())
+        
+        #Removes selected entry
+        listno = self.lb_test.GetSelection()
+        print(self.lb_test.Count)
+        self.lb_test.Delete(listno)
+        print(self.lb_test.Count)
         event.Skip()
     
     def on_state(self, event):
@@ -37,10 +49,9 @@ class myFrame(wx.Frame):
         
         event.Skip()
     
-    def on_spin(self, event):
-        self.tc_ctr.SetValue(str(event.GetPosition()))
-        event.Skip()
-
+    def on_click(self, event):
+        listno = self.lb_test.GetSelection()
+        print(f"{self.lb_test.GetString(listno)} lives in Valhalla")
 
 class myApp(wx.App):
     def OnInit(self):
