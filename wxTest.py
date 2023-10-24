@@ -1,3 +1,4 @@
+
 import wx
 
 class myFrame(wx.Frame):
@@ -10,40 +11,19 @@ class myFrame(wx.Frame):
         
         self.b_state = wx.Button(self.panel, wx.ID_ANY, "Disable", pos=(160,20))
         self.Bind(wx.EVT_BUTTON, self.on_state, self.b_state)
-
-        #Check Box Example
-#        self.cb_discount = wx.CheckBox(self.panel, wx.ID_ANY, "Apply Discount", \
-#                                       pos = (5, 100))
-        #Radio buttons as single declaration
-#        self.rb_planet = wx.RadioBox(self.panel, wx.ID_ANY, label="Planets", \
-#                                     pos = (60, 100), choices=['Venus', 'Earth', 'Mars'])
-        #Radio buttons as separate declarions
-        #Even the demonstration didn't work on this one
-#        self.rb_venus = wx.RadioButton(self.panel, wx.ID_ANY, label="Venus",\
-#                                       pos=(66,100), style=wx.RB_SINGLE)
-#        self.rb_earth = wx.RadioButton(self.panel, wx.ID_ANY, label="Earth",\
-#                                       pos=(133,100), style=wx.RB_SINGLE)
-#        self.rb_mars = wx.RadioButton(self.panel, wx.ID_ANY, label="Mars",\
-#                                       pos=(199,100), style=wx.RB_SINGLE)
-
-        #On Press, print message from check box
-#        print(f"Checkbox {self.cb_discount.IsChecked()}")
-        #On Press, print message from radio box selection
-#        print(self.rb_planet.GetStringSelection())
-        #On Press, print message from single radio buttons
-#        if self.rb_venus.GetValue(): print("Venutian Skies")
-#        if self.rb_earth.GetValue(): print("Welcome to Earth")
-#        if self.rb_mars.GetValue():  print("Martian Dream")
-        self.label = wx.StaticText(self.panel, wx.ID_ANY, "Enter Password: ", pos=(60,100))
-        self.tc_pwd = wx.TextCtrl(self.panel, wx.ID_ANY, "", pos=(175,95), \
-                                  size=(100,-1), style=wx.TE_PASSWORD)
-        #Multiline entry
-        #self.tc_test = wx.TextCtrl(self.panel, wx.ID_ANY, "", pos=(60,100), \
-        #    size=(200,120), style=wx.TE_MULTILINE)
+        self.tc_ctr = wx.TextCtrl(self.panel, wx.ID_ANY, "1", (60,100), (35,-1))
+        hispin = self.tc_ctr.GetSize().height
+        pospin = self.tc_ctr.GetSize().width + self.tc_ctr.GetPosition().x + 2
+        #Definitely not confusing given that SpinCtrl is also a wx class.
+        self.sb_ctr = wx.SpinButton(self.panel, wx.ID_ANY, (pospin,100), \
+                                    (int(hispin*3/4),hispin), style=wx.SP_VERTICAL | wx.SP_ARROW_KEYS)
+        self.sb_ctr.SetRange(1,100)
+        self.sb_ctr.SetValue(1)
+        self.Bind(wx.EVT_SPIN, self.on_spin, self.sb_ctr)
     
     def on_test(self, event):
         #On Press, print set message
-        print(self.tc_pwd.GetValue()) #Note: Slightly insecure handling of fictional password is not endorsed by the creator of this code
+        print("This button works.")
         event.Skip()
     
     def on_state(self, event):
@@ -55,6 +35,10 @@ class myFrame(wx.Frame):
             self.b_test.Enable()
             self.b_state.SetLabel("Disable")
         
+        event.Skip()
+    
+    def on_spin(self, event):
+        self.tc_ctr.SetValue(str(event.GetPosition()))
         event.Skip()
 
 
