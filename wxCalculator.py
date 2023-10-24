@@ -31,7 +31,7 @@ class myFrame(wx.Frame):
                                      size=(80,-1), style=wx.TEXT_ALIGNMENT_RIGHT)
         wx.StaticText(self.panel,label='=', pos=(195,73), size=(-1,-1))
         self.tc_output = wx.TextCtrl(self.panel, value='', pos=(210,70), \
-                                     size=(80,-1), style=wx.TEXT_ALIGNMENT_RIGHT)
+                                     size=(80,-1), style=wx.TEXT_ALIGNMENT_RIGHT|wx.TE_READONLY)
 
         self.b_compute = wx.Button(self.panel, label="Compute", pos=(10,115))
         self.Bind(wx.EVT_BUTTON, self.on_compute, self.b_compute)
@@ -89,7 +89,7 @@ class myFrame(wx.Frame):
 
 class myApp(wx.App):
     def OnInit(self):
-        self.frame = myFrame(None, wx.ID_ANY, title="wxPython Test", size=(460,280))
+        self.frame = myFrame(None, wx.ID_ANY, title="wxPython Calculator Demo", size=(460,280))
         self.SetTopWindow(self.frame)
         self.frame.Show()
         return True
